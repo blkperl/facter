@@ -13,6 +13,14 @@ if Facter.value(:kernel) == "OpenBSD"
     }
 
     Facter::Manufacturer.sysctl_find_system_info(mfg_keys)
+
+elsif Facter.value(:kernel) == "windows"
+  win32_keys = {
+        'manufacturer' => ['Manufacturer', 'Bios'],
+        'serialNumber' => ['Serialnumber', 'Bios'],
+        'productname'  => ['Name', 'ComputerSystemProduct']
+    }
+  Facter::Manufacturer.win32_find_system_info(win32_keys)
 else
     query = {
         '[Ss]ystem [Ii]nformation' => [
