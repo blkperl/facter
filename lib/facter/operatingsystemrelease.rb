@@ -122,6 +122,23 @@ Facter.add(:operatingsystemrelease) do
     end
 end
 
+Facter.add(:operatingsystemrelease) do    
+	require 'facter/util/mswindows'
+	confine :operatingsystem => :windows
+	osrelease = ""
+
+	# Included spaces to ensure its uniqueness
+	@releases = [" XP ", " Vista ", " 7 ", " 2003 ", " 2008 ", " 2008 R2 ", " 8 "]
+	
+	@releases.each do |r|
+		if Facter::Util::MSWindows.getWindowsRelease.include?(r)
+			setcode do
+				osrelease = r.gsub(/\s/, "") 
+			end
+		end
+	end
+end
+
 Facter.add(:operatingsystemrelease) do
     setcode do Facter[:kernelrelease].value end
 end
