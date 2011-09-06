@@ -131,7 +131,7 @@ module Facter::Util::IP
             return nil
         end
         regex = /SLAVE[,>].* (bond[0-9]+)/
-            ethbond = regex.match(Facter::Util::Resolution.exec("/sbin/ip link show #{interface}")
+            ethbond = regex.match(Facter::Util::Resolution.exec("/sbin/ip link show #{interface}"))
         if ethbond
             device = ethbond[1]
         else

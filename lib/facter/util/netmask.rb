@@ -25,7 +25,7 @@ module Facter::NetMask
             }
         end
 
-        %x{#{ops[:ifconfig]}}.split(/\n/).collect do |line|
+        Facter::Util::Resolution.exec("#{ops[:ifconfig]}").split(/\n/).collect do |line|
             matches = line.match(ops[:regex])
             if !matches.nil?
                 if ops[:munge].nil?
