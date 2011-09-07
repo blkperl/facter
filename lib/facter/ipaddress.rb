@@ -26,7 +26,7 @@ Facter.add(:ipaddress) do
     confine :kernel => :linux
     setcode do
         ip = nil
-        output = %x{/sbin/ifconfig}
+        output = Facter::Util::Resolution.exec('/sbin/ifconfig')
 
         output.split(/^\S/).each { |str|
             if str =~ /inet addr:([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)/
@@ -46,7 +46,7 @@ Facter.add(:ipaddress) do
     confine :kernel => %w{FreeBSD OpenBSD Darwin}
     setcode do
         ip = nil
-        output = %x{/sbin/ifconfig}
+        output = Facter::Util::Resolution.exec('/sbin/ifconfig')
 
         output.split(/^\S/).each { |str|
             if str =~ /inet ([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)/
@@ -66,7 +66,7 @@ Facter.add(:ipaddress) do
     confine :kernel => %w{NetBSD SunOS}
     setcode do
         ip = nil
-        output = %x{/sbin/ifconfig -a}
+        output = Facter::Util::Resolution.exec('/sbin/ifconfig -a')
 
         output.split(/^\S/).each { |str|
             if str =~ /inet ([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)/
@@ -86,7 +86,7 @@ Facter.add(:ipaddress) do
     confine :kernel => %w{AIX}
     setcode do
         ip = nil
-        output = %x{/usr/sbin/ifconfig -a}
+        output = Facter::Util::Resolution.exec('/usr/sbin/ifconfig -a')
 
         output.split(/^\S/).each { |str|
             if str =~ /inet ([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)/
