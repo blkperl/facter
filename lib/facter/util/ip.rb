@@ -80,8 +80,8 @@ module Facter::Util::IP
         when 'HP-UX'
             output = Facter::Util::Resolution.exec('/bin/netstat -in | sed -e 1d')
         when 'windows'
-          output = %x|#{ENV['SYSTEMROOT']}/system32/netsh interface ip show interface|
-          output += %x|#{ENV['SYSTEMROOT']}/system32/netsh interface ipv6 show interface|
+          output = Facter::Util::Resolution.exec("#{ENV['SYSTEMROOT']}/system32/netsh interface ip show interface")
+          output += Facter::Util::Resolutoin.exec("#{ENV['SYSTEMROOT']}/system32/netsh interface ipv6 show interface")
         end
         output
     end
@@ -107,9 +107,9 @@ module Facter::Util::IP
         return get_single_interface_output(interface) unless Facter.value(:kernel) == 'windows'
 
         if label == 'ipaddress6'
-          output = %x|#{ENV['SYSTEMROOT']}/system32/netsh interface ipv6 show address \"#{interface}\"|
+          output = Facter::Util::Resolution.exec("#{ENV['SYSTEMROOT']}/system32/netsh interface ipv6 show address \"#{interface}\"")
         else
-          output = %x|#{ENV['SYSTEMROOT']}/system32/netsh interface ip show address \"#{interface}\"|
+          output = Facter::Util::Resolution.exec("#{ENV['SYSTEMROOT']}/system32/netsh interface ip show address \"#{interface}\"")
         end
         output
     end

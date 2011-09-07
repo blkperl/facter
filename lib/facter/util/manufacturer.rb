@@ -8,19 +8,19 @@ module Facter::Manufacturer
         when 'Linux', 'GNU/kFreeBSD'
             return nil unless FileTest.exists?("/usr/sbin/dmidecode")
 
-            output=%x{/usr/sbin/dmidecode 2>/dev/null}
+            output=Facter::Util::Resolution.exec('/usr/sbin/dmidecode 2>/dev/null')
         when 'FreeBSD'
             return nil unless FileTest.exists?("/usr/local/sbin/dmidecode")
 
-            output=%x{/usr/local/sbin/dmidecode 2>/dev/null}
+            output=Facter::Util::Resolution.exec('/usr/local/sbin/dmidecode 2>/dev/null')
         when 'NetBSD'
             return nil unless FileTest.exists?("/usr/pkg/sbin/dmidecode")
 
-            output=%x{/usr/pkg/sbin/dmidecode 2>/dev/null}
+            output=Facter::Util::Resolution.exec('/usr/pkg/sbin/dmidecode 2>/dev/null')
         when 'SunOS'
             return nil unless FileTest.exists?("/usr/sbin/smbios")
 
-            output=%x{/usr/sbin/smbios 2>/dev/null}
+            output=Facter::Util::Resolution.exec('/usr/sbin/smbios 2>/dev/null')
         else
             output=nil
         end
