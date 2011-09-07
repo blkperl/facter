@@ -12,14 +12,14 @@
 Facter.add(:iphostnumber) do
     confine :kernel => :darwin, :kernelrelease => "R6"
     setcode do
-        Facter::Util::Resolution.exec('/usr/sbin/scutil --get LocalHostName')
+        %x{/usr/sbin/scutil --get LocalHostName}
     end
 end
 Facter.add(:iphostnumber) do
     confine :kernel => :darwin, :kernelrelease => "R6"
     setcode do
         ether = nil
-        output = Facter::Util::Resolution.exec('/sbin/ifconfig')
+        output = %x{/sbin/ifconfig}
 
         output =~ /HWaddr (\w\w:\w\w:\w\w:\w\w:\w\w:\w\w)/
         ether = $1

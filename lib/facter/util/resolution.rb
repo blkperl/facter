@@ -18,7 +18,7 @@ class Facter::Util::Resolution
             if Facter.value(:kernel) == 'windows'
                 @have_which = false
             else
-                Facter::Util::Resolution.exec('which which >/dev/null 2>&1')
+                %x{which which >/dev/null 2>&1}
                 @have_which = ($? == 0)
             end
         end
@@ -49,7 +49,7 @@ class Facter::Util::Resolution
             if code =~ /^\//
                 path = binary
             else
-                path = Facter::Util::Resolution.exec("which #{binary} 2>/dev/null").chomp
+                path = %x{which #{binary} 2>/dev/null}.chomp
                 # we don't have the binary necessary
                 return nil if path == "" or path.match(/Command not found\./)
             end
@@ -60,7 +60,7 @@ class Facter::Util::Resolution
         out = nil
 
         begin
-            out = Facter::Util::Resolution.exec("#{code}").chomp
+            out = %x{#{code}}.chomp
         rescue Errno::ENOENT => detail
             # command not found on Windows
             return nil
